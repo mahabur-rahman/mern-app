@@ -48,13 +48,13 @@ const userRegister = async (req, res) => {
     return res.status(422).json({ error: "plz fill the all field!" });
   }
 
-  const preUser = await UserModel.findOne({ email: email });
-
-  if (preUser) {
-    return res.status(422).json({ error: "Email already exist!" });
-  }
-
   try {
+    const preUser = await UserModel.findOne({ email: email });
+
+    if (preUser) {
+      return res.status(422).json({ error: "Email already exist!" });
+    }
+
     const user = await UserModel({
       name,
       email,
@@ -75,5 +75,26 @@ const userRegister = async (req, res) => {
 
 // ##############################
 
+// POST | LOGIN
+const userLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "please fill the all field!" });
+    }
+
+    const userLogin = await UserModel.findOne({ email: email });
+
+    if (!userLogin) {
+      return res.status(400).json("Invalid credential!");
+    } else {
+      return res.status(200).json("User login successful!");
+    }
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
 // export
-module.exports = { userRegister };
+module.exports = { userRegister, userLogin };
