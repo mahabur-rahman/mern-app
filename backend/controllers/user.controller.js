@@ -92,8 +92,17 @@ const userLogin = async (req, res) => {
     const userLogin = await UserModel.findOne({ email: email });
 
     if (userLogin) {
-      // compare password
+      // compare password ###############
       const isMatch = await bcrypt.compare(password, userLogin.password);
+
+      // JWT TOKEN GENERATE  ###############
+      const token = await userLogin.generateAuthToken();
+      console.log(`Generate token : ${token}`);
+
+      res.cookie("jwtoken", token, {
+        expires: new Date(Date.now() + 25892000000),
+        httpOnly: true,
+      });
 
       if (!isMatch) {
         return res.status(400).json("Invalid credential of pass!");
