@@ -1,4 +1,5 @@
 const UserModel = require("../models/userSchema");
+const bcrypt = require("bcryptjs");
 
 // ############################## POST | REGISTER USER
 
@@ -90,10 +91,17 @@ const userLogin = async (req, res) => {
 
     const userLogin = await UserModel.findOne({ email: email });
 
-    if (!userLogin) {
-      return res.status(400).json("Invalid credential!");
+    if (userLogin) {
+      // compare password
+      const isMatch = await bcrypt.compare(password, userLogin.password);
+
+      if (!isMatch) {
+        return res.status(400).json("Invalid credential of pass!");
+      } else {
+        return res.status(200).json("User login successful!");
+      }
     } else {
-      return res.status(200).json("User login successful!");
+      return res.status(400).json({ error: "Invalid credential of email" });
     }
   } catch (err) {
     return res.status(400).json(err);
