@@ -53,21 +53,25 @@ const userRegister = async (req, res) => {
 
     if (preUser) {
       return res.status(422).json({ error: "Email already exist!" });
+    } else if (password !== cpassword) {
+      return res.status(422).json({ error: "password are not matching" });
+    } else {
+      const user = await UserModel({
+        name,
+        email,
+        phone,
+        work,
+        password,
+        cpassword,
+      });
+
+      // hash password before save on db 👍
+
+      // save on db
+      const userData = await user.save();
+
+      return res.status(201).json({ user: userData });
     }
-
-    const user = await UserModel({
-      name,
-      email,
-      phone,
-      work,
-      password,
-      cpassword,
-    });
-
-    // save on db
-    const userData = await user.save();
-
-    return res.status(201).json({ user: userData });
   } catch (err) {
     return res.status(500).json({ error: err });
   }
