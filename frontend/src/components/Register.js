@@ -51,24 +51,32 @@ const Register = () => {
 
     const { name, email, work, phone, password, cpassword } = info;
 
-    const res = await fetch(`/register`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        work,
-        phone,
-        password,
-        cpassword,
-      }),
-    });
+    try {
+      const res = await fetch(`/register`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          work,
+          phone,
+          password,
+          cpassword,
+        }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    console.log(data);
+      if (data.status === 422 || !data || data.error) {
+        alert("something wrong");
+      }
+
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
