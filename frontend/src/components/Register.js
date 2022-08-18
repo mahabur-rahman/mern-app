@@ -23,26 +23,52 @@ const Register = () => {
   };
 
   // handleClick
+  // const handleClick = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const { name, email, work, phone, password, cpassword } = info;
+
+  //     const res = await axios.post("/register", {
+  //       name,
+  //       email,
+  //       work,
+  //       phone,
+  //       password,
+  //       cpassword,
+  //     });
+
+  //     // console.log(res);
+  //     //  console.log(res.data)
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // using JS FETCH METHOD
   const handleClick = async (e) => {
     e.preventDefault();
 
-    try {
-      const { name, email, work, phone, password, cpassword } = info;
+    const { name, email, work, phone, password, cpassword } = info;
 
-      const res = await axios.post("/register", {
+    const res = await fetch(`/register`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         name,
         email,
         work,
         phone,
         password,
         cpassword,
-      });
+      }),
+    });
 
-      // console.log(res);
-      // console.log(res.data)
-    } catch (err) {
-      console.log(err);
-    }
+    const data = await res.json();
+
+    console.log(data);
   };
 
   return (
