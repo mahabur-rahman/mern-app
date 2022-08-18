@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
+  const history = useHistory();
+
   const [info, setInfo] = useState({
     name: "",
     email: "",
@@ -23,61 +25,64 @@ const Register = () => {
   };
 
   // handleClick
-  // const handleClick = async (e) => {
-  //   e.preventDefault();
 
-  //   try {
-  //     const { name, email, work, phone, password, cpassword } = info;
-
-  //     const res = await axios.post("/register", {
-  //       name,
-  //       email,
-  //       work,
-  //       phone,
-  //       password,
-  //       cpassword,
-  //     });
-
-  //     // console.log(res);
-  //     //  console.log(res.data)
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // using JS FETCH METHOD
   const handleClick = async (e) => {
     e.preventDefault();
 
     const { name, email, work, phone, password, cpassword } = info;
-
     try {
-      const res = await fetch(`/register`, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          work,
-          phone,
-          password,
-          cpassword,
-        }),
+      const res = await axios.post("/register", {
+        name,
+        email,
+        work,
+        phone,
+        password,
+        cpassword,
       });
 
-      const data = await res.json();
+      history.push("/login");
 
-      if (data.status === 422 || !data || data.error) {
-        alert("something wrong");
-      }
-
-      console.log(data);
+      // console.log(res);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
   };
+
+  // using JS FETCH METHOD
+
+  // const handleClick = async (e) => {
+  //   e.preventDefault();
+
+  //   const { name, email, work, phone, password, cpassword } = info;
+
+  //   try {
+  //     const res = await fetch(`/register`, {
+  //       method: "post",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         name,
+  //         email,
+  //         work,
+  //         phone,
+  //         password,
+  //         cpassword,
+  //       }),
+  //     });
+
+  //     const data = await res.json();
+
+  //     if (data.status === 422 || !data || data.error) {
+  //       alert("something wrong");
+  //     }
+
+  //     console.log(data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   return (
     <div>
