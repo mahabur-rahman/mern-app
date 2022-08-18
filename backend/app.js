@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const colors = require("colors");
+const cookieParser = require("cookie-parser");;
 
 // route
 const UserRoute = require("./routes/user.route");
@@ -16,6 +17,7 @@ connectedDB();
 
 // middleware
 app.use(express.json());
+app.use(cookieParser())
 app.use("/api/users", UserRoute);
 
 // listen app

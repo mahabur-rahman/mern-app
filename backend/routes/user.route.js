@@ -5,13 +5,13 @@ const authenticate = require("../middleware/authenticate");
 const {
   userRegister,
   userLogin,
-  userContact,
+  userAbout,
 } = require("../controllers/user.controller");
 
 // POST | REGISTER
 router.post("/register", userRegister);
 router.post("/login", userLogin);
-router.get("/contact", authenticate, userContact);
+router.get("/about", authenticate, userAbout);
 
 // export
 module.exports = router;

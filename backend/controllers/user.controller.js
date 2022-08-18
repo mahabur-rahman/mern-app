@@ -118,9 +118,10 @@ const userLogin = async (req, res) => {
 };
 
 // CONTACT PAGE AUTHENTICATE
-const userContact = async (req, res) => {
+const userAbout = async (req, res) => {
+  console.log("hello about ");
   res.send(req.rootUser);
 };
 
 // export
-module.exports = { userRegister, userLogin, userContact };
+module.exports = { userRegister, userLogin, userAbout };
