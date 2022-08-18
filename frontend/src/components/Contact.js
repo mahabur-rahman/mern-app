@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 
 const Contact = () => {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
 
   const callContactPage = async () => {
     try {
@@ -15,7 +20,13 @@ const Contact = () => {
 
       const data = await res.json();
       console.log(data);
-      setUserData(data);
+      // setUserData(data);
+      setUserData({
+        ...userData,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+      });
 
       if (!res.status === 200) {
         const error = new Error(res.error);
@@ -29,6 +40,44 @@ const Contact = () => {
   useEffect(() => {
     callContactPage();
   }, []);
+
+  // handleChange
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+  };
+
+  // send data to db
+  const handleClick = async (e) => {
+    e.preventDefault();
+
+    const { name, email, phone, message } = userData;
+
+    const res = await fetch(`/contact`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        message,
+      }),
+    });
+
+    const data = await res.json();
+
+    console.log(data);
+
+    if (!data) {
+      alert("Message not send!");
+    } else {
+      alert("Message Send!");
+      setUserData({ ...userData, message: "" });
+    }
+  };
+
   return (
     <div>
       <section id="contact" className="py-5">
@@ -58,7 +107,9 @@ const Contact = () => {
                       <Form.Control
                         type="name"
                         id="name"
-                        placeholder={userData.name}
+                        value={userData.name}
+                        name="name"
+                        onChange={handleChange}
                       />
                     </Form.Group>
 
@@ -66,7 +117,9 @@ const Contact = () => {
                       <Form.Control
                         type="email"
                         id="email"
-                        placeholder={userData.email}
+                        value={userData.email}
+                        name="email"
+                        onChange={handleChange}
                       />
                     </Form.Group>
 
@@ -74,7 +127,9 @@ const Contact = () => {
                       <Form.Control
                         type="number"
                         id="phone"
-                        placeholder={userData.phone}
+                        value={userData.phone}
+                        name="phone"
+                        onChange={handleChange}
                       />
                     </Form.Group>
 
@@ -83,13 +138,19 @@ const Contact = () => {
                         rows="5"
                         placeholder="message...."
                         className="form-control"
+                        value={userData.message}
                         name="message"
+                        onChange={handleChange}
                       ></textarea>
                     </Form.Group>
 
                     {/* submit btn */}
                     <div className="text-center">
-                      <button className="btn btn-primary" type="submit">
+                      <button
+                        className="btn btn-primary"
+                        type="submit"
+                        onClick={handleClick}
+                      >
                         Contact Now
                       </button>
                     </div>

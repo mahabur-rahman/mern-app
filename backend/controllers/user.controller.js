@@ -129,5 +129,40 @@ const userContact = async (req, res) => {
   res.send(req.rootUser);
 };
 
+// contact us page | send Message
+const sendMessage = async (req, res) => {
+  try {
+    const { name, email, phone, message } = req.body;
+
+    if (!name || !email || !phone || !message) {
+      console.log("error in contact form controller");
+      return res.status(400).json({ error: "Please fill up contact form" });
+    }
+
+    const userContact = await UserModel.findOne({ _id: req.userId });
+
+    if (userContact) {
+      const userMessage = await userContact.addMessage(
+        name,
+        email,
+        phone,
+        message
+      );
+
+      await userContact.save();
+
+      return res.status(201).json("Message successfully created!");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 // export
-module.exports = { userRegister, userLogin, userAbout, userContact };
+module.exports = {
+  userRegister,
+  userLogin,
+  userAbout,
+  userContact,
+  sendMessage,
+};
