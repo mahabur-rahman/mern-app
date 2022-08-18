@@ -47,7 +47,7 @@ const Login = () => {
     // console.log("data : ", data);
 
     if (res.status === 400 || !data) {
-      alert("Login Error");
+      alert("Login fail!");
     } else {
       alert("Login Successful");
       history.push("/");
