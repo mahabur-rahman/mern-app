@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const [info, setInfo] = useState({
@@ -19,6 +20,29 @@ const Register = () => {
     value = e.target.value;
 
     setInfo({ ...info, [name]: value });
+  };
+
+  // handleClick
+  const handleClick = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { name, email, work, phone, password, cpassword } = info;
+
+      const res = await axios.post("/register", {
+        name,
+        email,
+        work,
+        phone,
+        password,
+        cpassword,
+      });
+
+      // console.log(res);
+      // console.log(res.data)
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -102,6 +126,7 @@ const Register = () => {
                         type="submit"
                         value="Register"
                         className="btn btn-success"
+                        onClick={handleClick}
                       />
                     </div>
                   </Form>
