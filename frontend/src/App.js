@@ -7,6 +7,7 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import Error from "./components/Error";
 // react router dom
 import { Switch, Route } from "react-router-dom";
 
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/contact" component={Contact} />
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
+        <Route component={Error} />
       </Switch>
     </>
   );
