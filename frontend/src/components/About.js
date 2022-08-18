@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
 const About = () => {
+  const [userData, setUserData] = useState({});
+
   const history = useHistory();
 
   const callAboutPage = async () => {
@@ -18,6 +20,7 @@ const About = () => {
 
       const data = await res.json();
       console.log(data);
+      setUserData(data);
 
       if (!res.status === 200) {
         const error = new Error(res.error);
@@ -31,7 +34,7 @@ const About = () => {
 
   useEffect(() => {
     callAboutPage();
-  });
+  }, []);
 
   return (
     <div>
@@ -40,12 +43,15 @@ const About = () => {
           <form className="row" method="GET">
             <div className="col">
               <img
-                src="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                src={
+                  userData?.img ||
+                  "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                }
                 width="300"
                 height="100"
                 alt="Profile"
               />
-              <h4>mahabur rahman</h4>
+              <h4>{userData.name}</h4>
               <p>work</p>
               <span>Ranking : 1/10</span>
               <div>
@@ -69,15 +75,15 @@ const About = () => {
               className="mb-3 mt-4"
             >
               <Tab eventKey="about" title="About">
-                <strong>User Id :</strong> 55245520011
+                <strong>User Id :</strong> {userData._id}
                 <br />
-                <strong>Name : </strong> name
+                <strong>Name : </strong> {userData.name}
                 <br />
-                <strong>Email :</strong> a@gmail.com
+                <strong>Email :</strong> {userData.email}
                 <br />
                 <strong>Phone : </strong>
-                phone <br />
-                <strong>Profession : </strong> web dev
+                {userData.phone} <br />
+                <strong>Profession : </strong> {userData.work}
               </Tab>
               <Tab eventKey="profile" title="Profile">
                 Timeline here

@@ -1,7 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 
 const Contact = () => {
+  const [userData, setUserData] = useState({});
+
+  const callContactPage = async () => {
+    try {
+      const res = await fetch(`/getData`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+      console.log(data);
+      setUserData(data);
+
+      if (!res.status === 200) {
+        const error = new Error(res.error);
+        throw error;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    callContactPage();
+  }, []);
   return (
     <div>
       <section id="contact" className="py-5">
@@ -9,15 +36,15 @@ const Contact = () => {
           <Row className="mb-3">
             <Col xl={4} className="border border-1">
               <h5>Phone</h5>
-              <p>254252542</p>
+              <p>{userData.phone}</p>
             </Col>
             <Col xl={4} className="border border-1">
               <h5>Email</h5>
-              <p>annur@gmail.com</p>
+              <p>{userData.email}</p>
             </Col>
             <Col xl={4} className="border border-1">
               <h5>Address</h5>
-              <p>Dhaka, Bangladesh</p>
+              <p>{userData?.address || "Dhaka, Bangladesh"}</p>
             </Col>
           </Row>
 
@@ -28,14 +55,18 @@ const Contact = () => {
                 <Col xl={6} className="mx-auto">
                   <Form method="POST">
                     <Form.Group className="mb-3" controlId="name">
-                      <Form.Control type="name" id="name" placeholder="name" />
+                      <Form.Control
+                        type="name"
+                        id="name"
+                        placeholder={userData.name}
+                      />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="email">
                       <Form.Control
                         type="email"
                         id="email"
-                        placeholder="email"
+                        placeholder={userData.email}
                       />
                     </Form.Group>
 
@@ -43,7 +74,7 @@ const Contact = () => {
                       <Form.Control
                         type="number"
                         id="phone"
-                        placeholder="phone"
+                        placeholder={userData.phone}
                       />
                     </Form.Group>
 

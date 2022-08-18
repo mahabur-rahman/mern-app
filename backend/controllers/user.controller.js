@@ -117,11 +117,17 @@ const userLogin = async (req, res) => {
   }
 };
 
-// CONTACT PAGE AUTHENTICATE
+// ABOUT PAGE AUTHENTICATE
 const userAbout = async (req, res) => {
   console.log("hello about ");
   res.send(req.rootUser);
 };
 
+// get user data for contact | home page
+const userContact = async (req, res) => {
+  console.log("hello contact page ");
+  res.send(req.rootUser);
+};
+
 // export
-module.exports = { userRegister, userLogin, userAbout };
+module.exports = { userRegister, userLogin, userAbout, userContact };
