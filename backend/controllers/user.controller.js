@@ -119,7 +119,7 @@ const userLogin = async (req, res) => {
 
 // CONTACT PAGE AUTHENTICATE
 const userContact = async (req, res) => {
-  res.send("get contact page");
+  res.send(req.rootUser);
 };
 
 // export
