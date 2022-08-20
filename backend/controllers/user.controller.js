@@ -158,6 +158,12 @@ const sendMessage = async (req, res) => {
   }
 };
 
+// LOGOUT USER
+const logoutUser = async (req, res) => {
+  res.clearCookie("jwtoken", { path: "/" });
+  return res.status(200).json("User Logout");
+};
+
 // export
 module.exports = {
   userRegister,
@@ -165,4 +171,5 @@ module.exports = {
   userAbout,
   userContact,
   sendMessage,
+  logoutUser,
 };

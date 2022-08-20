@@ -16,6 +16,7 @@ const Toolbar = () => {
               <Link to="/contact">Contact</Link>
               <Link to="/register">Register</Link>
               <Link to="/login">Login</Link>
+              <Link to="/logout">Logout</Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
