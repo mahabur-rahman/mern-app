@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../App";
 
 const Login = () => {
+  const { state, dispatch } = useContext(UserContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -49,6 +52,7 @@ const Login = () => {
     if (res.status === 400 || !data) {
       alert("Login fail!");
     } else {
+      dispatch({ type: "USER", payload: true });
       alert("Login Successful");
       history.push("/");
     }
